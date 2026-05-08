@@ -1,23 +1,15 @@
-//
-//  SolaceApp.swift
-//  Solace
-//
-//  Created by Rico Miles Quiblat on 5/8/26.
-//
-
 import SwiftUI
 import SwiftData
 
 @main
 struct SolaceApp: App {
-    var sharedModelContainer: ModelContainer = {
-        let schema = Schema([
-            Item.self,
-        ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
+    @State private var appState = AppState()
 
+    var sharedModelContainer: ModelContainer = {
+        let schema = Schema([Entry.self, AppSettings.self])
+        let config = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
         do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
+            return try ModelContainer(for: schema, configurations: [config])
         } catch {
             fatalError("Could not create ModelContainer: \(error)")
         }
@@ -25,8 +17,9 @@ struct SolaceApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RootView()
         }
         .modelContainer(sharedModelContainer)
+        .environment(appState)
     }
 }
