@@ -31,3 +31,6 @@ Pods/
 
 # Claude Code local config
 .claude/
+_bmad**
+designs
+.autopilot
